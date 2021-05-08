@@ -59,6 +59,7 @@ function Deck(
       console.log(dealerTally);
       this.drawCard();
       dealerTally += this.countHand(this.dealerHand, "dealer");
+      console.log(dealerTally);
       if (typeof dealerTally === "string") {
         break;
       }
@@ -89,7 +90,7 @@ function Deck(
       dealCard(card, player);
       this.playerHand.push(card);
     } else {
-      dealCard(card);
+      dealCard(card, "dealer");
       this.dealerHand.push(card);
     }
     return card;
@@ -111,41 +112,40 @@ function Deck(
     let sum = 0;
 
     for (let card of hand) {
-      console.log(card);
+      //check if card is 10
       if (card.length === 3) card = "10";
       else {
         card = card[0];
       }
 
-      console.log(card);
+      //Face card checks
       if (card === "A") {
         sum += 11;
       } else if (card === "J" || card === "K" || card === "Q") {
         sum += 10;
       }
 
+      //digit card check
       if (card === "10") {
-        console.log("hello");
         sum += 10;
-      } else {
-        console.log(parseInt(card));
+      } else if (!isNaN(card)) {
         sum += parseInt(card);
       }
     }
 
-    //loop that checks if A === 11 || A === 1
+    //loop that checks if A === 11 || A === 1 to maintain desirable score
     for (let card of hand) {
-      if (card[0] === "A") {
+      if (card[0] === "A" && sum > 21) {
         sum -= 10;
       }
     }
 
-    //CHECK FOR 21 OR BUST
+    // CHECK FOR 21 OR BUST
     if (sum === 21) {
-      sum = `${sum} blackjack! ${player} wins`;
+      result = `${sum} blackjack! ${player} wins`;
       return this.onWin(result, player);
     } else if (sum > 21) {
-      sum = `${sum}, ${player} busts!`;
+      result = `${sum}, ${player} busts!`;
       return this.onWin(result, player);
     }
 
@@ -182,27 +182,27 @@ function Deck(
       </div>
     </div>`;
 
-    //CHECKS FOR FACEDOWN CARD
-    if ((this.dealerHand.length = 0)) {
-      console.log("first dealer card");
-      this.flipCard(newCard);
-    }
-    //ADDS TRANSFORM PROPERTY TO ELEMENT AND SETS A 50MS DELAY SO THE BROWSER LOADS
     const cardContainer = newCard.firstElementChild;
-    setInterval(setInt, 50);
-    function setInt() {
-      cardContainer.style.transform = "rotateY(180deg)";
+    //CHECKS FOR FACEDOWN CARD
+    if (this.dealerHand.length === 0 && player === "dealer") {
+      this.dealerSection.appendChild(newCard);
+    } //ADDS TRANSFORM PROPERTY TO ELEMENT AND SETS A 50MS DELAY SO THE BROWSER LOADS
+    else {
+      setInterval(setInt, 50);
+      function setInt() {
+        cardContainer.style.transform = "rotateY(180deg)";
+      }
     }
 
-    if (player) {
+    if (player === "player") {
       this.playerSection.appendChild(newCard);
     } else {
       this.dealerSection.appendChild(newCard);
     }
   };
 
-  this.flipCard = (card) => {
-    console.log(card);
+  this.flipCard = () => {
+    console.log(card, cardContainer);
   };
 
   this.reset = () => {};
