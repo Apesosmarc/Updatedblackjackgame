@@ -1,0 +1,49 @@
+#player-cards-section,
+#dealer-cards-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#winSection {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  margin: 1em;
+  perspective: 1000px;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+
+  transition: all 1s ease;
+
+  transform-style: preserve-3d;
+}
+
+.card-container img {
+  width: 15em;
+}
+
+.card-front {
+  grid-area: 1/1;
+  transform: rotateY(180deg);
+}
+
+.card-back {
+  grid-area: 1/1;
+}
+
+.youwin {
+  font-size: 3em;
+  color: red;
+  font-weight: 900;
+}
+
+.display-none {
+  display: none;
+}
