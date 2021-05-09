@@ -10,7 +10,7 @@ function Deck(
   cardContainers,
   callbacks
 ) {
-  (this.values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "K", "A", "A"]),
+  (this.values = ["K", "A", "A", "A"]),
     (this.suits = ["C", "S", "H", "D"]),
     (this.deck = []),
     (this.drawnCards = []);
@@ -54,18 +54,21 @@ function Deck(
   };
 
   this.stay = () => {
-    let dealerTally = this.countHand(this.dealerHand, "dealer");
-    while (dealerTally < 17) {
-      console.log(dealerTally);
+    //reveals dealer card
+    setTimeout(this.flipCard, 1000);
+
+    let dealerTally = 0;
+    //DEALER DRAWS CARDS AND COMPARES HAND
+    this.intId = setInterval(() => {
       this.drawCard();
-      dealerTally += this.countHand(this.dealerHand, "dealer");
-      console.log(dealerTally);
-      if (typeof dealerTally === "string") {
-        break;
+      dealerTally = this.countHand(this.dealerHand, "dealer");
+      if (dealerTally > 17 || undefined) {
+        this.compareHand(this.playerTally, this.dealerTally);
+        clearInterval(this.intId);
       }
-    }
+    }, 2000);
+
     //call compareHand func
-    this.compareHand(this.playerTally, this.dealerTally);
   };
 
   this.makeDeck = () => {
@@ -188,10 +191,10 @@ function Deck(
       this.dealerSection.appendChild(newCard);
     } //ADDS TRANSFORM PROPERTY TO ELEMENT AND SETS A 50MS DELAY SO THE BROWSER LOADS
     else {
-      setInterval(setInt, 50);
       function setInt() {
         cardContainer.style.transform = "rotateY(180deg)";
       }
+      setInterval(setInt, 50);
     }
 
     if (player === "player") {
@@ -202,7 +205,13 @@ function Deck(
   };
 
   this.flipCard = () => {
-    console.log(card, cardContainer);
+    //selects first card in dealer section
+    const flipCard = this.dealerSection.firstElementChild;
+    const cardContainer = flipCard.firstElementChild;
+    function setFlip() {
+      cardContainer.style.transform = "rotateY(180deg)";
+    }
+    setTimeout(setFlip, 50);
   };
 
   this.reset = () => {};
@@ -213,25 +222,30 @@ function Deck(
     let dealerTally = this.countHand(this.dealerHand, "dealer");
 
     if (playerTally > dealerTally) {
-      this.onWin("player wins");
+      return this.onWin(`${playerTally}, player wins`);
     } else if (dealerTally > playerTally) {
-      this.onWin(`dealer wins`);
+      return this.onWin(`${dealerTally} dealer wins`);
     } else if (playerTally === dealerTally) {
-      this.onWin(`push`);
+      return this.onWin(`push`);
     }
   };
 
   //func that gets called on win, receives string. Hides buttons and shows message
 
   this.onWin = (str, player) => {
-    const youWinText = document.createElement("h1");
-    youWinText.classList.add("youwin");
-    youWinText.innerText = str.toUpperCase();
-    this.winSection.appendChild(youWinText);
+    let executed = false;
+    console.log(executed);
+    if (!executed) {
+      executed = true;
+      const youWinText = document.createElement("h1");
+      youWinText.classList.add("youwin");
+      youWinText.innerText = str.toUpperCase();
+      this.winSection.appendChild(youWinText);
 
-    [hitButton, playButton, stayButton].forEach((btn) => {
-      btn.classList.add("display-none");
-    });
+      [hitButton, playButton, stayButton].forEach((btn) => {
+        btn.classList.add("display-none");
+      });
+    }
   };
 
   //EVENT LISTENERS
