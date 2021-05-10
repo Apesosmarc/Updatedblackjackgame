@@ -249,17 +249,20 @@ function Deck(
 
   this.onWin = (str, player) => {
     //ADD A CONDITION THAT CHECKS IF WINSECTION IS POPULATED OR NOT.
-    let winCount = [...document.querySelectorAll(".youwin")];
-    if (winCount.length < 1) {
-      const youWinText = document.createElement("h1");
-      youWinText.classList.add("youwin");
-      youWinText.innerText = str.toUpperCase();
-      this.winSection.appendChild(youWinText);
-
-      [hitButton, playButton, stayButton].forEach((btn) => {
-        btn.classList.add("display-none");
-      });
-    }
+    setTimeout(() => {
+      let winCount = [...document.querySelectorAll(".youwin")];
+      if (winCount.length < 1) {
+        const youWinText = document.createElement("h1");
+        youWinText.classList.add("youwin");
+        youWinText.innerText = str.toUpperCase();
+        this.winSection.appendChild(youWinText);
+        setTimeout(() => {
+          [hitButton, playButton, stayButton].forEach((btn) => {
+            btn.classList.add("display-none");
+          });
+        }, 1000);
+      }
+    }, 1000);
   };
 
   //EVENT LISTENERS
