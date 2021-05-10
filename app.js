@@ -47,7 +47,7 @@ const deck1 = new Deck(
   cardContainers,
   {
     onStart() {
-      this.makeDeck();
+      this.makeDecks();
       this.shuffleDeck();
     },
   }

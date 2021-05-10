@@ -10,9 +10,9 @@ function Deck(
   cardContainers,
   callbacks
 ) {
-  (this.values = ["K", "A", "A", "A"]),
+  (this.values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]),
     (this.suits = ["C", "S", "H", "D"]),
-    (this.deck = []),
+    (this.decks = []),
     (this.drawnCards = []);
   this.playerHand = [];
   this.dealerHand = [];
@@ -38,10 +38,27 @@ function Deck(
     this.onStart = callbacks.onStart;
   }
 
+  //creates set # of decks. Default of 1 deck.
+  this.makeDecks = (numDecks = 1) => {
+    const { decks, values, suits } = this;
+    for (i = 0; i < numDecks; i++)
+      for (let value of values) {
+        for (let suit of suits) {
+          this.decks.push(value + suit);
+        }
+      }
+    return decks;
+  };
+
+  //SHUFFLE DECKS ARRAY
+  this.shuffleDeck = () => {
+    this.decks = this.decks.sort((a, b) => 0.5 - Math.random());
+    return this.decks;
+  };
+
+  //NEW GAME CALLBACK FUNCTION THAT STARTS INITIAL DEAL ON CLICK
   this.start = () => {
-    // Make + shuffle deck
     this.onStart();
-    //draw player + dealer cards and counts
     this.drawMultiple(2, "player");
     this.countHand(this.playerHand, "player");
     this.drawMultiple(2);
@@ -54,40 +71,28 @@ function Deck(
   };
 
   this.stay = () => {
+    const that = this;
     //reveals dealer card
     setTimeout(this.flipCard, 1000);
+    let dealerTally = this.countHand(this.dealerHand, "dealer");
 
-    let dealerTally = 0;
-    //DEALER DRAWS CARDS AND COMPARES HAND
-    this.intId = setInterval(() => {
+    const draw = setInterval(() => {
       this.drawCard();
       dealerTally = this.countHand(this.dealerHand, "dealer");
-      if (dealerTally > 17 || undefined) {
+      console.log(typeof dealerTally);
+      if (dealerTally > 17) {
+        console.log(dealerTally);
         this.compareHand(this.playerTally, this.dealerTally);
-        clearInterval(this.intId);
+        clearInterval(draw);
       }
     }, 2000);
 
-    //call compareHand func
-  };
-
-  this.makeDeck = () => {
-    const { deck, values, suits } = this;
-    for (let value of values) {
-      for (let suit of suits) {
-        this.deck.push(value + suit);
-      }
+    if (dealerTally > 17) {
     }
-    return deck;
-  };
-
-  this.shuffleDeck = () => {
-    this.deck = this.deck.sort((a, b) => 0.5 - Math.random());
-    return this.deck;
   };
 
   this.drawCard = (player) => {
-    const card = this.deck.pop();
+    const card = this.decks.pop();
     this.drawnCards.push(card);
     if (player === "player") {
       dealCard(card, player);
@@ -144,12 +149,16 @@ function Deck(
     }
 
     // CHECK FOR 21 OR BUST
-    if (sum === 21) {
-      result = `${sum} blackjack! ${player} wins`;
-      return this.onWin(result, player);
-    } else if (sum > 21) {
-      result = `${sum}, ${player} busts!`;
-      return this.onWin(result, player);
+    let executed = false;
+    if (sum === 21 || sum > 21 || !executed) {
+      executed = true;
+      if (sum === 21) {
+        result = `${sum} blackjack! ${player} wins`;
+        this.onWin(result, player);
+      } else if (sum > 21) {
+        result = `${sum}, ${player} busts!`;
+        this.onWin(result, player);
+      }
     }
 
     //PUSHES TO PALYER OR DEALER SIDE
@@ -158,8 +167,7 @@ function Deck(
     } else {
       this.dealerScore.innerHTML = `${sum} ${this.dealerHand}`;
     }
-
-    return sum;
+    return parseInt(sum);
   };
 
   //result function that displays you win, or you bust, or dealer wins + hides certain buttons and resets animations
@@ -191,10 +199,10 @@ function Deck(
       this.dealerSection.appendChild(newCard);
     } //ADDS TRANSFORM PROPERTY TO ELEMENT AND SETS A 50MS DELAY SO THE BROWSER LOADS
     else {
-      function setInt() {
+      function setFlip() {
         cardContainer.style.transform = "rotateY(180deg)";
       }
-      setInterval(setInt, 50);
+      setTimeout(setFlip, 50);
     }
 
     if (player === "player") {
@@ -202,6 +210,8 @@ function Deck(
     } else {
       this.dealerSection.appendChild(newCard);
     }
+
+    return card;
   };
 
   this.flipCard = () => {
@@ -221,31 +231,32 @@ function Deck(
     let playerTally = this.countHand(this.playerHand, "player");
     let dealerTally = this.countHand(this.dealerHand, "dealer");
 
-    if (playerTally > dealerTally) {
-      return this.onWin(`${playerTally}, player wins`);
-    } else if (dealerTally > playerTally) {
-      return this.onWin(`${dealerTally} dealer wins`);
-    } else if (playerTally === dealerTally) {
-      return this.onWin(`push`);
+    let run = false;
+    if (!run) {
+      if (playerTally > dealerTally) {
+        run = true;
+        return this.onWin(`${playerTally}, player wins`);
+      } else if (dealerTally > playerTally) {
+        run = true;
+        return this.onWin(`${dealerTally} dealer wins`);
+      } else if (playerTally === dealerTally) {
+        run = true;
+        return this.onWin(`push`);
+      }
     }
   };
 
   //func that gets called on win, receives string. Hides buttons and shows message
 
   this.onWin = (str, player) => {
-    let executed = false;
-    console.log(executed);
-    if (!executed) {
-      executed = true;
-      const youWinText = document.createElement("h1");
-      youWinText.classList.add("youwin");
-      youWinText.innerText = str.toUpperCase();
-      this.winSection.appendChild(youWinText);
+    const youWinText = document.createElement("h1");
+    youWinText.classList.add("youwin");
+    youWinText.innerText = str.toUpperCase();
+    this.winSection.appendChild(youWinText);
 
-      [hitButton, playButton, stayButton].forEach((btn) => {
-        btn.classList.add("display-none");
-      });
-    }
+    [hitButton, playButton, stayButton].forEach((btn) => {
+      btn.classList.add("display-none");
+    });
   };
 
   //EVENT LISTENERS
