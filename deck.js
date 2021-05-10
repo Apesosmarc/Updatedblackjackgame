@@ -35,6 +35,7 @@ function Deck(
 
   //function that makes deck and shuffles auto
   if (callbacks) {
+    this.displayBtns = callbacks.displayBtns;
     this.onStart = callbacks.onStart;
   }
 
@@ -58,7 +59,6 @@ function Deck(
 
   //NEW GAME CALLBACK FUNCTION THAT STARTS INITIAL DEAL ON CLICK
   this.start = () => {
-    this.playButton.classList.add("display-none");
     this.onStart();
     this.drawMultiple(2, "player");
     this.countHand(this.playerHand, "player");
@@ -67,27 +67,27 @@ function Deck(
   };
 
   this.hit = () => {
-    this.hitButton.classList.add("display-none");
     this.drawCard("player");
     this.countHand(this.playerHand, "player");
   };
 
   this.stay = () => {
+    this.hitButton.classList.add("display-none");
     this.stayButton.classList.add("display-none");
     //reveals dealer card
     setTimeout(this.flipCard, 1000);
     let dealerTally = this.countHand(this.dealerHand, "dealer");
 
     const draw = setInterval(() => {
-      this.drawCard();
-      dealerTally = this.countHand(this.dealerHand, "dealer");
-      console.log(typeof dealerTally);
       if (dealerTally > 17) {
         console.log(dealerTally);
         clearInterval(draw);
         this.compareHand(this.playerTally, this.dealerTally);
+      } else {
+        this.drawCard();
+        dealerTally = this.countHand(this.dealerHand, "dealer");
       }
-    }, 2500);
+    }, 2000);
 
     if (dealerTally > 17) {
     }
@@ -151,10 +151,7 @@ function Deck(
     }
 
     // CHECK FOR 21 OR BUST
-    if (sum === 21) {
-      result = `${sum} blackjack! ${player} wins`;
-      this.onWin(result, player);
-    } else if (sum > 21) {
+    if (sum > 21) {
       result = `${sum}, ${player} busts!`;
       this.onWin(result, player);
     }
@@ -249,6 +246,9 @@ function Deck(
 
   this.onWin = (str, player) => {
     //ADD A CONDITION THAT CHECKS IF WINSECTION IS POPULATED OR NOT.
+    [hitButton, playButton, stayButton].forEach((btn) => {
+      btn.classList.add("display-none");
+    });
     setTimeout(() => {
       let winCount = [...document.querySelectorAll(".youwin")];
       if (winCount.length < 1) {
@@ -256,13 +256,8 @@ function Deck(
         youWinText.classList.add("youwin");
         youWinText.innerText = str.toUpperCase();
         this.winSection.appendChild(youWinText);
-        setTimeout(() => {
-          [hitButton, playButton, stayButton].forEach((btn) => {
-            btn.classList.add("display-none");
-          });
-        }, 1000);
       }
-    }, 1000);
+    }, 200);
   };
 
   //EVENT LISTENERS
