@@ -2,12 +2,17 @@
 #dealer-cards-section {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 #winSection {
   display: flex;
   justify-content: center;
+}
+
+.wrapper {
+  width: 70%;
+  margin: 0 auto;
 }
 
 .card {
