@@ -1,3 +1,3 @@
-const game = {
-  decks: makeDeck(),
+module.exports = game = {
+  fuck: "whatever",
 };

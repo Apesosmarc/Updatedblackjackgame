@@ -1,30 +1,57 @@
+:root {
+  --red-font: #ae2d2d;
+}
+
+* {
+  background-color: #048f4b;
+}
+
+#playerScore,
+#dealerScore {
+  height: 22px;
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.game-header {
+  font-size: 2rem;
+  color: var(--red-font);
+  text-align: center;
+}
+
 #player-cards-section,
 #dealer-cards-section {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
+  margin: 0;
 }
 
 #winSection {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .wrapper {
-  width: 70%;
-  margin: 0 auto;
+  height: 100vh;
 }
 
 .card {
-  margin: 1em;
   perspective: 1000px;
+  overflow: hidden;
+}
+.card:last-child {
+  perspective: 1000px;
+  overflow: visible;
 }
 
 .card-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(50px, 1fr);
   justify-content: center;
-
   transition: all 1s ease;
 
   transform-style: preserve-3d;
@@ -41,14 +68,91 @@
 
 .card-back {
   grid-area: 1/1;
+  overflow: hidden;
 }
 
 .youwin {
   font-size: 3em;
-  color: red;
+  color: var(--red-font);
   font-weight: 900;
 }
 
 .display-none {
   display: none;
+}
+
+/* BUTTON STYLING ================== */
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 255px;
+}
+
+button {
+  height: 6em;
+  width: 6em;
+  border-radius: 50%;
+  background: radial-gradient(#2ca50c, #00b178);
+  border: 1px solid green;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset {
+  margin: 0;
+}
+
+.play-text {
+  color: var(--red-font);
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.play-text:hover,
+.play-text:active {
+  opacity: 0.7;
+}
+
+.button-svg {
+  height: 3em;
+  width: 3em;
+}
+
+.play-svg {
+  margin-bottom: 1em;
+  height: 5em;
+  width: 5em;
+}
+
+.play-svg:hover {
+  transform: scale(1.5);
+  transform: rotate(10deg);
+}
+
+.hit-svg {
+  transform: rotate(270deg);
+}
+
+@media (min-width: 1000px) {
+}
+
+@media (min-width: 500px) {
+  .card-container img {
+    width: 10em;
+  }
+}
+@media (max-width: 500px) {
+  .card-container img {
+    width: 5.5em;
+  }
+  .youwin {
+    font-size: 1.3em;
+  }
 }
