@@ -113,13 +113,14 @@ function cardToDOM(card, player) {
 
   newCard.innerHTML = `
         <div class="card-container">
+
+             <div class="card-back">
+              <img src="images/green_back.png">
+          </div>
           <div class="card-front">
             <img src="/images/${card}.png">
           </div>
-
-          <div class="card-back">
-              <img src="images/green_back.png">
-          </div>
+     
         </div>
         `;
 
