@@ -12,6 +12,7 @@ const btnContainer = document.querySelector(".button-container");
 const playerScore = document.querySelector("#playerScore");
 const dealerScore = document.querySelector("#dealerScore");
 const youWin = document.querySelector("#youWin");
+const gameHeader = document.querySelector(".game-header");
 
 //CARDS SECTION
 const playerSection = document.querySelector("#player-cards-section");

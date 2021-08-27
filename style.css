@@ -14,9 +14,10 @@
 }
 
 .game-header {
-  font-size: 2rem;
+  font-size: 2.3rem;
   color: var(--red-font);
   text-align: center;
+  margin-top: 2em;
 }
 
 #player-cards-section,
@@ -105,6 +106,10 @@ figure {
   justify-content: center;
 }
 
+#playButton:hover {
+  opacity: 0.7;
+}
+
 .reset {
   margin: 0;
 }
@@ -127,8 +132,8 @@ figure {
 
 .play-svg {
   margin-bottom: 1em;
-  height: 5em;
-  width: 5em;
+  height: 6em;
+  width: 6em;
 }
 
 .play-svg:hover {
@@ -140,11 +145,13 @@ figure {
   transform: rotate(270deg);
 }
 
-@media (min-width: 1000px) {
-}
-
 @media (min-width: 500px) {
   .card-container img {
+    width: 10em;
+  }
+  .play-svg {
+    margin-bottom: 1em;
+    height: 10em;
     width: 10em;
   }
 }

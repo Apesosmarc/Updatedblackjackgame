@@ -16,7 +16,7 @@ const showplayerScore = (player, delay) => {
 
 //START FUNCTION
 playButton.addEventListener("click", () => {
-  removeBtns(playButton, resetButton);
+  removeBtns(playButton, resetButton, gameHeader);
   drawMultiple(2, game.player);
   drawMultiple(2, game.dealer);
 
@@ -47,7 +47,7 @@ const rollout = () => {
 //STAY FUNCTIONS
 stayButton.addEventListener("click", () => {
   removeBtns(hitButton, stayButton);
-  displayBtns(resetButton);
+
   showplayerScore(game.dealer, 500);
   //REVEALS DEALER CARD
   setTimeout(flipCard, 0);

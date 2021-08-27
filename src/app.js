@@ -182,4 +182,5 @@ youWinStyling = (str) => {
   youWinText.classList.add("youwin");
   youWinText.innerText = str.toUpperCase();
   winSection.appendChild(resetButton);
+  resetButton.classList.remove("display-none");
 };
