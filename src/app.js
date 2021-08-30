@@ -204,6 +204,7 @@ function onWin(str, player, delay) {
   if (!isrunning) {
     isRunning = true;
     setTimeout(() => {
+      btnContainer.remove();
       youWinStyling(str);
     }, delay);
   }
@@ -211,11 +212,9 @@ function onWin(str, player, delay) {
 
 youWinStyling = (str) => {
   const youWinText = document.createElement("h1");
-  winSection.style.height = "255px";
   winSection.appendChild(youWinText);
   youWinText.classList.add("youwin");
   youWinText.innerText = str.toUpperCase();
   winSection.appendChild(resetButton);
   resetButton.classList.remove("display-none");
-  btnContainer.style.height = "0px";
 };

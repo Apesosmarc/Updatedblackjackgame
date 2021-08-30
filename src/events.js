@@ -16,7 +16,7 @@ const showplayerScore = (player, delay) => {
 
 const startSequence = () => {
   createGame();
-  removeBtns(playButton, resetButton, gameHeader);
+  removeBtns(resetButton);
   drawMultiple(2, game.player);
   drawMultiple(2, game.dealer);
 
@@ -26,9 +26,9 @@ const startSequence = () => {
 };
 
 //START FUNCTION
-playButton.addEventListener("click", () => {
-  startSequence();
-});
+// playButton.addEventListener("click", () => {
+//   startSequence();
+// });
 
 hitButton.addEventListener("click", () => {
   drawCard(game.player);
@@ -59,11 +59,6 @@ stayButton.addEventListener("click", () => {
   rollout();
 });
 
-resetButton.addEventListener("click", function () {
-  textArray.forEach((ele) => {
-    ele.innerHTML = "";
-  });
-  btnContainer.style.height = "255px";
-  winSection.style.height = "";
-  startSequence();
+resetButton.addEventListener("click", () => {
+  location.reload();
 });

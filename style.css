@@ -58,7 +58,7 @@
 }
 
 .card-container img {
-  width: 15em;
+  width: 5.5em;
 }
 
 .card-front {
@@ -76,10 +76,15 @@
   font-size: 3em;
   color: var(--red-font);
   font-weight: 900;
+  font-size: 1.3em;
 }
 
 .display-none {
   display: none;
+}
+
+.text-container {
+  height: 150px;
 }
 
 /* BUTTON STYLING ================== */
@@ -88,7 +93,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 255px;
+  height: 150px;
 }
 
 button {
@@ -154,12 +159,10 @@ figure {
     height: 10em;
     width: 10em;
   }
-}
-@media (max-width: 500px) {
-  .card-container img {
-    width: 5.5em;
+  .text-container {
+    height: 250px;
   }
   .youwin {
-    font-size: 1.3em;
+    font-size: 3em;
   }
 }
