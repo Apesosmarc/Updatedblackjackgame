@@ -23,7 +23,12 @@ const winSection = document.querySelector("#winSection");
 const cardContainers = document.querySelectorAll(".card-container");
 
 //contains all elements that need to be cleared on new game
-const textArray = [playerScore, playerSection, dealerSection];
-const cardTest = document.querySelector(".card-front");
+const textArray = [
+  playerScore,
+  playerSection,
+  dealerSection,
+  dealerScore,
+  winSection,
+];
 
 const body = document.querySelector("body");

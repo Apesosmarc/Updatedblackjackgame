@@ -1,3 +1,21 @@
+function shuffle(decks) {
+  var currentIndex = decks.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [decks[currentIndex], decks[randomIndex]] = [
+      decks[randomIndex],
+      decks[currentIndex],
+    ];
+  }
+
+  return decks;
+}
+
 function makeDecks(numDecks = 1) {
   const decks = [];
   const suits = ["C", "S", "H", "D"];
@@ -10,28 +28,35 @@ function makeDecks(numDecks = 1) {
       }
     }
   }
-  return decks.sort((a, b) => 0.5 - Math.random());
+  return shuffle(decks);
 }
 
-let game = {
-  decks: makeDecks(),
-  drawnCards: [],
-  player: {
-    hand: [],
-    cardSection: playerSection,
-    scoreSection: playerScore,
-    tally: null,
-    id: 2,
-    playerName: "player",
-  },
-  dealer: {
-    hand: [],
-    cardSection: dealerSection,
-    scoreSection: dealerScore,
-    tally: null,
-    id: 1,
-    playerName: "dealer",
-  },
+class Game {
+  constructor() {
+    this.decks = makeDecks();
+    this.drawnCards = [];
+    this.player = {
+      hand: [],
+      cardSection: playerSection,
+      scoreSection: playerScore,
+      tally: null,
+      id: 2,
+      playerName: "player",
+    };
+    this.dealer = {
+      hand: [],
+      cardSection: dealerSection,
+      scoreSection: dealerScore,
+      tally: null,
+      id: 1,
+      playerName: "dealer",
+    };
+  }
+}
+
+let game;
+createGame = (numOfDecks = 1) => {
+  game = new Game(numOfDecks);
 };
 
 function drawMultiple(numCards, player) {
@@ -179,7 +204,6 @@ function onWin(str, player, delay) {
   if (!isrunning) {
     isRunning = true;
     setTimeout(() => {
-      btnContainer.remove();
       youWinStyling(str);
     }, delay);
   }
@@ -193,4 +217,5 @@ youWinStyling = (str) => {
   youWinText.innerText = str.toUpperCase();
   winSection.appendChild(resetButton);
   resetButton.classList.remove("display-none");
+  btnContainer.style.height = "0px";
 };

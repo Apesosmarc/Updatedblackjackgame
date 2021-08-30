@@ -14,8 +14,8 @@ const showplayerScore = (player, delay) => {
   }, delay);
 };
 
-//START FUNCTION
-playButton.addEventListener("click", () => {
+const startSequence = () => {
+  createGame();
   removeBtns(playButton, resetButton, gameHeader);
   drawMultiple(2, game.player);
   drawMultiple(2, game.dealer);
@@ -23,6 +23,11 @@ playButton.addEventListener("click", () => {
   setTimeout(() => {
     displayBtns(hitButton, stayButton);
   }, 1000);
+};
+
+//START FUNCTION
+playButton.addEventListener("click", () => {
+  startSequence();
 });
 
 hitButton.addEventListener("click", () => {
@@ -55,6 +60,10 @@ stayButton.addEventListener("click", () => {
 });
 
 resetButton.addEventListener("click", function () {
-  location.reload();
-  return false;
+  textArray.forEach((ele) => {
+    ele.innerHTML = "";
+  });
+  btnContainer.style.height = "255px";
+  winSection.style.height = "";
+  startSequence();
 });
