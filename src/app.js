@@ -48,8 +48,7 @@ function drawCard(player) {
   player.hand.push(card);
 }
 
-function countHand(player, obj) {
-  if (player.id === 1 && player.tally > 17) return compareHand(game);
+function tallyHand(player) {
   let sum = 0;
   //checks if card is 10 && slices Card from Suit to count
   for (let card of player.hand) {
@@ -79,13 +78,17 @@ function countHand(player, obj) {
 
   player.tally = sum;
 
+  // player Score to DOM
   if (player.id === 2) {
     showplayerScore(player, 500);
   }
 
-  // CHECK FOR IMMEDIATE 21 OR BUST
-  if (sum > 21) {
-    result = `${sum}, ${player.playerName} busts!`;
+  return sum;
+}
+
+function checkBlackJack(player) {
+  if (player.tally > 21) {
+    result = `${player.tally}, ${player.playerName} busts!`;
     return onWin(result, player);
   }
 
@@ -100,6 +103,12 @@ function countHand(player, obj) {
       onWin(result, game.player, 2000);
     }
   }
+}
+
+function countHand(player, obj) {
+  let sum = tallyHand(player);
+  checkBlackJack(player);
+
   //PUSHES TO PLAYER OR DEALER SIDE BASED ON ARGUMENT INPUT
 }
 
@@ -138,7 +147,7 @@ function cardToDOM(card, player) {
   player.cardSection.appendChild(newCard);
 }
 
-function setFlip(card) {
+async function setFlip(card) {
   return (card.style.transform = "rotateY(180deg)");
 }
 
