@@ -123,10 +123,10 @@ function checkBlackJack(player) {
     setTimeout(flipCard, 1000);
     showplayerScore(player, 500);
 
-    if (player.tally === game.player.tally) {
-      result = `PUSH`;
-      onWin(result, game.player, 2000);
-    }
+    // if (player.tally === game.player.tally) {
+    //   result = `PUSH`;
+    //   onWin(result, game.player, 2000);
+    // }
   }
 }
 
