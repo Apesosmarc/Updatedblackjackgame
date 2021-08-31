@@ -131,10 +131,8 @@ function checkBlackJack(player) {
 }
 
 function countHand(player, obj) {
-  let sum = tallyHand(player);
+  tallyHand(player);
   checkBlackJack(player);
-
-  //PUSHES TO PLAYER OR DEALER SIDE BASED ON ARGUMENT INPUT
 }
 
 function cardToDOM(card, player) {
@@ -177,7 +175,7 @@ async function setFlip(card) {
 }
 
 function flipCard() {
-  //selects first card in dealer section
+  //selects first card in dealer section and flips after stay btn clicked.
   const flipCard = dealerSection.firstElementChild;
   const cardContainer = flipCard.firstElementChild;
   setFlip(cardContainer);
@@ -186,10 +184,11 @@ function flipCard() {
 //compareHand func that finds the winner and passes string to onWin func
 function compareHand({ player, dealer, result }) {
   setTimeout(() => {
+    const delay = 500;
     if (player.tally > dealer.tally) {
-      onWin(`${player.tally}, player wins`, 500);
+      onWin(`${player.tally}, player wins`, delay);
     } else if (dealer.tally > player.tally) {
-      onWin(`${dealer.tally} dealer wins`, 500);
+      onWin(`${dealer.tally} dealer wins`, delay);
     } else if (player.tally === dealer.tally) {
       onWin(`push`);
     }

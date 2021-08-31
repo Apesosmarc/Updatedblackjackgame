@@ -25,11 +25,6 @@ const startSequence = () => {
   }, 1000);
 };
 
-//START FUNCTION
-// playButton.addEventListener("click", () => {
-//   startSequence();
-// });
-
 hitButton.addEventListener("click", () => {
   drawCard(game.player);
   countHand(game.player);
