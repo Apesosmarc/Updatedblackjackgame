@@ -129,13 +129,12 @@ function checkBlackJack(player) {
     // }
   }
 }
-
 function countHand(player, obj) {
   tallyHand(player);
   checkBlackJack(player);
 }
 
-function cardToDOM(card, player) {
+async function cardToDOM(card, player) {
   //CREATES CARD ELEMENT
   let newCard = document.createElement("div");
   newCard.classList.add("card");
@@ -168,6 +167,11 @@ function cardToDOM(card, player) {
   }
 
   player.cardSection.appendChild(newCard);
+  await sleep(100);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function setFlip(card) {
