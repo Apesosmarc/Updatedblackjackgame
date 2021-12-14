@@ -42,16 +42,14 @@
 
 .card {
   -webkit-perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
   perspective: 1000px;
   overflow: hidden;
 }
-.card:last-child {
+/* .card:last-child {
   perspective: 1000px;
   overflow: visible;
-}
-
-.card-container-ios-fix {
-}
+} */
 
 .card-container {
   display: grid;
@@ -59,6 +57,7 @@
   justify-content: center;
   transition: all 1s ease;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .card-container img {
