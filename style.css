@@ -68,6 +68,7 @@
   grid-area: 1/1;
   transform: rotateY(180deg);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-back {
