@@ -43,6 +43,7 @@
 .card {
   -webkit-perspective: 1000px;
   -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
   perspective: 1000px;
   overflow: hidden;
 }
@@ -58,6 +59,7 @@
   transition: all 1s ease;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-container img {
