@@ -47,10 +47,6 @@
   perspective: 1000px;
   overflow: hidden;
 }
-/* .card:last-child {
-  perspective: 1000px;
-  overflow: visible;
-} */
 
 .card-container {
   display: grid;
