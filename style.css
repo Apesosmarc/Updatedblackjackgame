@@ -49,12 +49,17 @@
   overflow: visible;
 }
 
+.card-container-ios-fix {
+  -webkit-perspective: 500px;
+}
+
 .card-container {
   display: grid;
   grid-template-columns: minmax(50px, 1fr);
   justify-content: center;
   transition: all 1s ease;
   transform-style: preserve-3d;
+  -webkit-transform: rotateY(180deg);
 }
 
 .card-container img {
