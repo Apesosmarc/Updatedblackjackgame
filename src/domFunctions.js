@@ -47,16 +47,14 @@ async function cardToDOM(card, player) {
   if (card === "AD") card = "aceofdiamonds";
 
   domNewCard.innerHTML = `
-      <div class="card-container-ios-fix">
-         <div class="card-container">
+        <div class="card-container">
              <div class="card-back">
               <img src="images/green_back.png">
           </div>
           <div class="card-front">
             <img src="/images/${card}.png">
           </div>
-        </div>
-      </div>`;
+        </div>`;
 
   // first elementChild selects the card container within newCard element
   // cardContainer is element that 3d animation applies too.
