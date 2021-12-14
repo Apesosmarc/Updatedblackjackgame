@@ -50,7 +50,6 @@
 }
 
 .card-container-ios-fix {
-  -webkit-perspective: 500px;
 }
 
 .card-container {
@@ -59,6 +58,7 @@
   justify-content: center;
   transition: all 1s ease;
   transform-style: preserve-3d;
+  -webkit-perspective: 500px;
 }
 
 .card-container img {
