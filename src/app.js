@@ -1,5 +1,7 @@
+// This file represents all BlackJack related functions. Counting cards, keeping score, etc.
+
 function shuffle(decks) {
-  var currentIndex = decks.length,
+  let currentIndex = decks.length,
     randomIndex;
   while (currentIndex != 0) {
     // Pick a remaining element...
@@ -16,6 +18,7 @@ function shuffle(decks) {
   return decks;
 }
 
+//accepts multiple decks as argument
 function makeDecks(numDecks = 1) {
   const decks = [];
   const suits = ["C", "S", "H", "D"];
@@ -31,39 +34,43 @@ function makeDecks(numDecks = 1) {
   return shuffle(decks);
 }
 
+// Game instance creator
 class Game {
   constructor() {
     this.decks = makeDecks();
     this.drawnCards = [];
     this.player = {
       hand: [],
-      cardSection: playerSection,
-      scoreSection: playerScore,
+      domCardSection: DOM.playerSection,
+      domScoreSection: DOM.playerScore,
       tally: null,
       id: 2,
-      playerName: "player",
+      name: "player",
     };
     this.dealer = {
       hand: [],
-      cardSection: dealerSection,
-      scoreSection: dealerScore,
+      domCardSection: DOM.dealerSection,
+      domScoreSection: DOM.dealerScore,
       tally: null,
       id: 1,
-      playerName: "dealer",
+      name: "dealer",
     };
   }
 }
 
+// create instance of game w/desired numOfDecks
 let game;
-createGame = (numOfDecks = 1) => {
+const createGame = (numOfDecks = 1) => {
   game = new Game(numOfDecks);
 };
 
+// draws X number of cards to begin, default 2.
 function drawMultiple(numCards, player) {
   for (let i = 0; i < numCards; i++) {
     drawCard(player);
   }
   countHand(player);
+  checkBlackJack(player);
 }
 
 function drawCard(player) {
@@ -73,122 +80,76 @@ function drawCard(player) {
   player.hand.push(card);
 }
 
-function tallyHand(player) {
+function countHand(player) {
   let sum = 0;
-  //checks if card is 10 && slices Card from Suit to count
   for (let card of player.hand) {
+    // card = 10A, 9D, 3S, etc
+    // exception for two digit integer
     if (card.length === 3) card = "10";
     else {
       card = card[0];
     }
-    //Face card checks
+
+    //Face card check
     if (card === "A") {
       sum += 11;
     } else if (card === "J" || card === "K" || card === "Q") {
       sum += 10;
     }
+
     //digit card check
-    if (card === "10") {
-      sum += 10;
-    } else if (!isNaN(card)) {
+    if (!isNaN(card)) {
       sum += parseInt(card);
     }
   }
+
   //loop that checks if A === 11 || A === 1 to maintain desirable score
+  player.tally = countAces(sum, player);
+
+  // player Score to DOM
+  if (player.name === "player") {
+    domSetHTMLScore(player);
+  }
+
+  checkBlackJack(player);
+
+  return sum;
+}
+
+function countAces(sum, player) {
   for (let card of player.hand) {
     if (card[0] === "A" && sum > 21) {
       sum -= 10;
     }
   }
 
-  player.tally = sum;
-
-  // player Score to DOM
-  if (player.id === 2) {
-    showplayerScore(player, 500);
-  }
-
   return sum;
 }
 
 function checkBlackJack(player) {
+  // show + count bust
   if (player.tally > 21) {
-    result = `${player.tally}, ${player.playerName} busts!`;
+    result = `${player.tally}, ${player.name} busts!`;
     return onWin(result, player);
   }
 
-  if (player.id === 1 && (game.player.tally === 21 || player.tally === 21)) {
-    removeBtns(hitButton, stayButton);
+  // if dealer is playing hand, and either player has 21, reveal 21.
+  if (
+    player.name === "dealer" &&
+    (game.dealer.tally === 21 || game.player.tally === 21)
+  ) {
+    domRemoveBtns(hitButton, stayButton);
 
-    setTimeout(flipCard, 1000);
-    showplayerScore(player, 500);
-
-    // if (player.tally === game.player.tally) {
-    //   result = `PUSH`;
-    //   onWin(result, game.player, 2000);
-    // }
+    domRevealDealerCard(game.dealer);
+    domSetHTMLScore(game.dealer);
   }
-}
-function countHand(player, obj) {
-  tallyHand(player);
-  checkBlackJack(player);
-}
-
-async function cardToDOM(card, player) {
-  //CREATES CARD ELEMENT
-  let newCard = document.createElement("div");
-  newCard.classList.add("card");
-
-  //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
-  if (card === "AD") card = "aceofdiamonds";
-
-  newCard.innerHTML = `
-        <div class="card-container">
-
-             <div class="card-back">
-              <img src="images/green_back.png">
-          </div>
-          <div class="card-front">
-            <img src="/images/${card}.png">
-          </div>
-     
-        </div>
-        `;
-
-  const cardContainer = newCard.firstElementChild;
-
-  // First dealt dealer card stays unflipped.
-  if (player.id === 1 && game.dealer.hand.length === 0) {
-    player.cardSection.appendChild(newCard);
-  } else {
-    setTimeout(() => {
-      setFlip(cardContainer);
-    }, 0);
-  }
-
-  player.cardSection.appendChild(newCard);
-  await sleep(100);
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function setFlip(card) {
-  return (card.style.transform = "rotateY(180deg)");
-}
-
-function flipCard() {
-  //selects first card in dealer section and flips after stay btn clicked.
-  const flipCard = dealerSection.firstElementChild;
-  const cardContainer = flipCard.firstElementChild;
-  setFlip(cardContainer);
 }
 
 //compareHand func that finds the winner and passes string to onWin func
-function compareHand({ player, dealer, result }) {
-  setTimeout(() => {
-    const delay = 500;
+async function compareHand({ player, dealer, delay = 200 }) {
+  // DELAY -> defines delay between the card being revealed and the count/result being shown
+
+  return setTimeout(() => {
     if (player.tally > dealer.tally) {
       onWin(`${player.tally}, player wins`, delay);
     } else if (dealer.tally > player.tally) {
@@ -196,28 +157,37 @@ function compareHand({ player, dealer, result }) {
     } else if (player.tally === dealer.tally) {
       onWin(`push`);
     }
-  }, 100);
+  }, delay);
 }
 
-function onWin(str, player, delay) {
+async function onWin(winStr) {
   if (winSection.children.length > 1) {
     return;
   }
-  let isrunning = false;
-  if (!isrunning) {
-    isRunning = true;
-    setTimeout(() => {
-      btnContainer.remove();
-      youWinStyling(str);
-    }, delay);
-  }
+
+  await setTimeout(DOM.btnContainer.remove());
+
+  domShowOutcome(winStr);
 }
 
-youWinStyling = (str) => {
-  const youWinText = document.createElement("h1");
-  winSection.appendChild(youWinText);
-  youWinText.classList.add("youwin");
-  youWinText.innerText = str.toUpperCase();
-  winSection.appendChild(resetButton);
-  resetButton.classList.remove("display-none");
+// function that handles dealer playing hand
+const rollout = (dealerTime = 1500) => {
+  //dealerTime is time between dealing dealing each card.
+  const { dealer } = game;
+
+  // defines interval ID outside scope.
+  let draw;
+
+  draw = setInterval(async () => {
+    domSetHTMLScore(dealer);
+
+    if (game.dealer.tally >= 17) {
+      // dealer does not hit a 17 => clearInterval
+      clearInterval(draw);
+      await compareHand(game);
+    } else {
+      drawCard(dealer);
+      countHand(dealer);
+    }
+  }, dealerTime);
 };

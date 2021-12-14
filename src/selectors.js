@@ -1,34 +1,28 @@
-//BUTTONS
-const hitButton = document.querySelector("#hitButton");
-const playButton = document.querySelector("#playButton");
-const resetButton = document.querySelector("#resetButton");
-const stayButton = document.querySelector("#stayButton");
+// creates new OBJ called DOM to better define DOM elements versus app properties.
 
-// Buttons Container
+const DOM = {
+  //BUTTONS
+  hitButton: document.querySelector("#hitButton"),
+  playButton: document.querySelector("#playButton"),
+  resetButton: document.querySelector("#resetButton"),
+  stayButton: document.querySelector("#stayButton"),
 
-const btnContainer = document.querySelector(".button-container");
+  // Buttons Container
+  btnContainer: document.querySelector(".button-container"),
 
-//TEXT
-const playerScore = document.querySelector("#playerScore");
-const dealerScore = document.querySelector("#dealerScore");
-const youWin = document.querySelector("#youWin");
-const gameHeader = document.querySelector(".game-header");
+  //TEXT
+  playerScore: document.querySelector("#playerScore"),
+  dealerScore: document.querySelector("#dealerScore"),
+  youWin: document.querySelector("#youWin"),
+  gameHeader: document.querySelector(".game-header"),
 
-//CARDS SECTION
-const playerSection = document.querySelector("#player-cards-section");
-const dealerSection = document.querySelector("#dealer-cards-section");
-const winSection = document.querySelector("#winSection");
+  //CARDS SECTION
+  playerSection: document.querySelector("#player-cards-section"),
+  dealerSection: document.querySelector("#dealer-cards-section"),
+  winSection: document.querySelector("#winSection"),
 
-//card elements that get added and or styled
-const cardContainers = document.querySelectorAll(".card-container");
+  //card elements that get added and or styled
+  cardContainers: document.querySelectorAll(".card-container"),
 
-//contains all elements that need to be cleared on new game
-const textArray = [
-  playerScore,
-  playerSection,
-  dealerSection,
-  dealerScore,
-  winSection,
-];
-
-const body = document.querySelector("body");
+  body: document.querySelector("body"),
+};

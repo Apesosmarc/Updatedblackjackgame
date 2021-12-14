@@ -1,59 +1,35 @@
-const displayBtns = (...args) => {
-  args.forEach((btn) => btn.classList.remove("display-none"));
-};
-
-const removeBtns = (...args) => {
-  args.forEach((btn) => {
-    btn.classList.add("display-none");
-  });
-};
-
-const showplayerScore = (player, delay) => {
-  return setTimeout(() => {
-    player.scoreSection.innerHTML = `~${player.tally}`;
-  }, delay);
-};
+// This file defines all event-based interaction from player + dom
 
 const startSequence = () => {
   createGame();
-  removeBtns(resetButton);
+  domRemoveBtns(DOM.resetButton);
   drawMultiple(2, game.player);
   drawMultiple(2, game.dealer);
 
   setTimeout(() => {
-    displayBtns(hitButton, stayButton);
+    domDisplayBtns(hitButton, stayButton);
   }, 1000);
 };
+
+window.addEventListener("load", startSequence);
 
 hitButton.addEventListener("click", () => {
   drawCard(game.player);
   countHand(game.player);
 });
 
-const rollout = () => {
-  let draw;
-  draw = setInterval(() => {
-    showplayerScore(game.dealer, 200);
-    if (game.dealer.tally >= 17) {
-      clearInterval(draw);
-      compareHand(game);
-    } else {
-      drawCard(game.dealer);
-      countHand(game.dealer);
-    }
-  }, 1500);
-};
-
-//STAY FUNCTIONS
+// STAY
 stayButton.addEventListener("click", () => {
-  removeBtns(hitButton, stayButton);
+  domRemoveBtns(hitButton, stayButton);
 
-  showplayerScore(game.dealer, 500);
-  //REVEALS DEALER CARD
-  setTimeout(flipCard, 0);
+  domSetHTMLScore(game.dealer);
+  domRevealDealerCard();
+
+  // dealer plays rest of hand
   rollout();
 });
 
+// PLAY AGAIN
 resetButton.addEventListener("click", () => {
   location.reload();
 });
