@@ -12,15 +12,15 @@
 This project expanded on a simple text-based blackjack game I created in a REPL for my vanilla JS AltCademy project. Now fully visually and responsive, hence Updatedblackjackgame.
 
 ## Notable Features:
-* Supports multi-deck Blackjack games.
-* Visual card flips using solely CSS, supported on modern browsers and OS's
-* Clean, structured DOM selectors and functions accurately named based on what they do.
+* Clean, structured DOM selectors and functions accurately named based on what they do. Inspired by OOP Single Responsibility Principle. ie; DOM functions seperate from game loop functions.
+* Visual card flips using 3D CSS, supported on modern browsers and OS's
 * Async JS used to create animation delays, and "wait" for CSS animation selectors to be applied before resuming program.
 * Responsive across all view widths and modern mobile devices.
 
 ## Vision/Goals For This App:
 * To create a visual experience using pure HTML/CSS/JS, without the use of libraries or frameworks.
-* Replicate an almost 'flash-like' card game that users can play within browser.
-* Apply basic OOP design principles to a browser program that processes user input.
+* To apply SOLID OOP design principles.
 * Use Array methods, nested loops and basic JS tools to apply card-counting logic.
+* Replicate an almost 'flash-like' card game that users can play within browser.
+
 
