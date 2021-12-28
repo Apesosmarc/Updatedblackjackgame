@@ -12,7 +12,8 @@
 This project expanded on a simple text-based blackjack game I created in a REPL for my vanilla JS AltCademy project. Now fully visually and responsive, hence Updatedblackjackgame.
 
 ## Notable Features:
-* Clean, structured DOM selectors and functions accurately named based on what they do. Inspired by OOP Single Responsibility Principle. ie; DOM functions seperate from game loop functions.
+* Clean, structured DOM selectors and functions accurately named based on what they do.
+* Inspired by OOP Single Responsibility Principle. ie; DOM functions seperate from game loop functions.
 * Async JS used to create animation delays, and "wait" for CSS styles to be applied.
 * Visual card flips using exciting 3D CSS animations.
 * Responsive across all view widths and modern mobile devices.
