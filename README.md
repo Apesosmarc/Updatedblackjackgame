@@ -1,6 +1,6 @@
 # Updatedblackjackgame
 
-![alt text](images/blackjackSS.png?raw=true "Title")
+<p align="center">![alt text](images/blackjackSS.png?raw=true "Title")</p>
 
 \*A blackjack game made using only HTML/CSS/JS, animated using 3d CSS transitions and effects.
 
