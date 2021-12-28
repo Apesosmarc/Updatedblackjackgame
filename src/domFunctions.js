@@ -12,9 +12,24 @@ const domRemoveBtns = (...args) => {
 };
 // --
 
-const domCreateCard = () => {
+const domCreateCard = (card) => {
+  //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
+  if (card === "AD") card = "aceofdiamonds";
+
   const newCard = document.createElement("div");
   newCard.classList.add("card");
+
+  // required HTML for Card
+  newCard.innerHTML = `
+    <div class="card-container">
+         <div class="card-back">
+          <img src="images/green_back.png">
+      </div>
+      <div class="card-front">
+        <img src="/images/${card}.png">
+      </div>
+    </div>`;
+
   return newCard;
 };
 
@@ -45,21 +60,7 @@ async function domFlipCard(domCardContainer) {
 
 async function cardToDOM(card, player) {
   //CREATES CARD ELEMENT
-  const domNewCard = domCreateCard();
-
-  //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
-  if (card === "AD") card = "aceofdiamonds";
-
-  // required HTML for Card
-  domNewCard.innerHTML = `
-        <div class="card-container">
-             <div class="card-back">
-              <img src="images/green_back.png">
-          </div>
-          <div class="card-front">
-            <img src="/images/${card}.png">
-          </div>
-        </div>`;
+  const domNewCard = domCreateCard(card);
 
   // first elementChild selects the card container within newCard element, this is the element that animation gets applied too.
   const domCardContainer = domNewCard.firstElementChild;
