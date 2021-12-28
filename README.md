@@ -9,7 +9,7 @@
 - CSS
 - Javascript
 
-This project expanded a simple text-based blackjack game I created in a REPL for my vanilla JS AltCademy project.
+This project expanded on a simple text-based blackjack game I created in a REPL for my vanilla JS AltCademy project. Now fully visually and responsive.
 
 ## Notable Features:
 * Supports multi-deck Blackjack games.
