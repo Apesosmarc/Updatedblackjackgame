@@ -13,8 +13,8 @@ This project expanded on a simple text-based blackjack game I created in a REPL 
 
 ## Notable Features:
 * Clean, structured DOM selectors and functions accurately named based on what they do. Inspired by OOP Single Responsibility Principle. ie; DOM functions seperate from game loop functions.
-* Visual card flips using 3D CSS, supported on modern browsers and OS's
 * Async JS used to create animation delays, and "wait" for CSS animation selectors to be applied before resuming program.
+* Visual card flips using exciting 3D CSS animations.
 * Responsive across all view widths and modern mobile devices.
 
 ## Vision/Goals For This App:
