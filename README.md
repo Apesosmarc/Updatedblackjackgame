@@ -22,6 +22,6 @@ This project expanded on a simple text-based blackjack game I created in a REPL 
 * To create a visual experience using pure HTML/CSS/JS, without the use of libraries or frameworks.
 * To apply SOLID OOP design principles.
 * Use Array methods, nested loops and basic JS tools to apply card-counting logic.
-* Replicate an almost 'flash-like' card game that users can play within browser.
+* Replicate a mid 2000s 'flash-like' browser card game made with JS methods I learned.
 
 
