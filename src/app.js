@@ -64,7 +64,7 @@ const createGame = (numOfDecks = 1) => {
   game = new Game(numOfDecks);
 };
 
-// draws X number of cards to begin, default 2.
+// draws X number of cards for dealer + player to begin
 function drawMultiple(numCards, player) {
   for (let i = 0; i < numCards; i++) {
     drawCard(player);
@@ -76,14 +76,16 @@ function drawMultiple(numCards, player) {
 function drawCard(player) {
   const card = game.decks.pop();
   game.drawnCards.push(card);
+  // arg1: card drawn. arg2: the person drawing the card
   cardToDOM(card, player);
   player.hand.push(card);
 }
 
+//Gets called when cards are dealt, player hits, or dealer is dealing own hand.
 function countHand(player) {
   let sum = 0;
   for (let card of player.hand) {
-    // card = 10A, 9D, 3S, etc
+    // card = 10A, 9D, 3S, etc. Following blocks slice the integer from the suit
     // exception for two digit integer
     if (card.length === 3) card = "10";
     else {
@@ -97,7 +99,7 @@ function countHand(player) {
       sum += 10;
     }
 
-    //digit card check
+    //if the card is a true number...
     if (!isNaN(card)) {
       sum += parseInt(card);
     }
@@ -106,7 +108,7 @@ function countHand(player) {
   //loop that checks if A === 11 || A === 1 to maintain desirable score
   player.tally = countAces(sum, player);
 
-  // player Score to DOM
+  // If player hitting calld this func -- push player score to DOM.
   if (player.name === "player") {
     domSetHTMLScore(player);
   }
@@ -116,13 +118,13 @@ function countHand(player) {
   return sum;
 }
 
+// Aces can be 11 or 1 depending if the hand is below 21
 function countAces(sum, player) {
   for (let card of player.hand) {
     if (card[0] === "A" && sum > 21) {
       sum -= 10;
     }
   }
-
   return sum;
 }
 
@@ -146,21 +148,18 @@ function checkBlackJack(player) {
 }
 
 //compareHand func that finds the winner and passes string to onWin func
-async function compareHand({ player, dealer, delay = 200 }) {
-  // DELAY -> defines delay between the card being revealed and the count/result being shown
-
-  return setTimeout(() => {
-    if (player.tally > dealer.tally) {
-      onWin(`${player.tally}, player wins`, delay);
-    } else if (dealer.tally > player.tally) {
-      onWin(`${dealer.tally} dealer wins`, delay);
-    } else if (player.tally === dealer.tally) {
-      onWin(`push`);
-    }
-  }, delay);
+async function compareHand({ player, dealer }) {
+  if (player.tally > dealer.tally) {
+    onWin(`${player.tally}, player wins`);
+  } else if (dealer.tally > player.tally) {
+    onWin(`${dealer.tally} dealer wins`);
+  } else if (player.tally === dealer.tally) {
+    onWin(`push`);
+  }
 }
 
 async function onWin(winStr) {
+  // makes sure winner isn't declar
   if (winSection.children.length > 1) {
     return;
   }
@@ -182,8 +181,9 @@ const rollout = (dealerTime = 1500) => {
     domSetHTMLScore(dealer);
 
     if (game.dealer.tally >= 17) {
-      // dealer does not hit a 17 => clearInterval
+      // dealer does not hit a 17, therefor clearInterval
       clearInterval(draw);
+
       await compareHand(game);
     } else {
       drawCard(dealer);

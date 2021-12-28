@@ -1,4 +1,4 @@
-// This file defines all event-based interaction from player + dom
+// This file defines all events in response to player input
 
 const startSequence = () => {
   createGame();

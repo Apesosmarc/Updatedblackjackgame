@@ -1,6 +1,6 @@
 // file that only includes functions that manipulate DOM elements
 
-// funcs that display or remove functions
+// -- funcs that display or remove DOM nodes.
 const domDisplayBtns = (...args) => {
   args.forEach((btn) => btn.classList.remove("display-none"));
 };
@@ -10,6 +10,7 @@ const domRemoveBtns = (...args) => {
     btn.classList.add("display-none");
   });
 };
+// --
 
 const domCreateCard = () => {
   const newCard = document.createElement("div");
@@ -17,6 +18,7 @@ const domCreateCard = () => {
   return newCard;
 };
 
+//first card in dealer BlackJ dealt face down... this flips it.
 const domRevealDealerCard = () => {
   const dealer = game.dealer;
   // selects first card in dealerCard array, then flips
@@ -26,6 +28,7 @@ const domRevealDealerCard = () => {
   domFlipCard(cardContainer);
 };
 
+// -- async because DOM elements take some time.
 const domSetHTMLScore = async (player) =>
   await setTimeout(
     () => (player.domScoreSection.innerHTML = `~${player.tally}`),
@@ -38,6 +41,7 @@ async function domFlipCard(domCardContainer) {
     0
   );
 }
+//--
 
 async function cardToDOM(card, player) {
   //CREATES CARD ELEMENT
@@ -46,6 +50,7 @@ async function cardToDOM(card, player) {
   //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
   if (card === "AD") card = "aceofdiamonds";
 
+  // required HTML for Card
   domNewCard.innerHTML = `
         <div class="card-container">
              <div class="card-back">
@@ -56,8 +61,7 @@ async function cardToDOM(card, player) {
           </div>
         </div>`;
 
-  // first elementChild selects the card container within newCard element
-  // cardContainer is element that 3d animation applies too.
+  // first elementChild selects the card container within newCard element, this is the element that animation gets applied too.
   const domCardContainer = domNewCard.firstElementChild;
 
   // First dealt dealer card stays unflipped.
