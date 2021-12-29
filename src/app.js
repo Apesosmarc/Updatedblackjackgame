@@ -86,6 +86,7 @@ function countHand(player) {
   let sum = 0;
   for (let card of player.hand) {
     // card = 10A, 9D, 3S, etc. Following blocks slice the integer from the suit
+
     // exception for two digit integer
     if (card.length === 3) card = "10";
     else {
@@ -177,14 +178,13 @@ const rollout = (dealerTime = 1500) => {
   // defines interval ID outside scope.
   let draw;
 
-  draw = setInterval(async () => {
+  draw = setInterval(() => {
     domSetHTMLScore(dealer);
 
     if (game.dealer.tally >= 17) {
       // dealer does not hit a 17, therefor clearInterval
       clearInterval(draw);
-
-      await compareHand(game);
+      compareHand(game);
     } else {
       drawCard(dealer);
       countHand(dealer);
