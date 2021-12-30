@@ -12,27 +12,6 @@ const domRemoveBtns = (...args) => {
 };
 // --
 
-const domCreateCard = (card) => {
-  //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
-  if (card === "AD") card = "aceofdiamonds";
-
-  const newCard = document.createElement("div");
-  newCard.classList.add("card");
-
-  // required HTML for Card
-  newCard.innerHTML = `
-    <div class="card-container">
-         <div class="card-back">
-          <img src="images/green_back.png">
-      </div>
-      <div class="card-front">
-        <img src="/images/${card}.png">
-      </div>
-    </div>`;
-
-  return newCard;
-};
-
 //first card in dealer BlackJ dealt face down... this flips it.
 const domRevealDealerCard = () => {
   const dealer = game.dealer;
@@ -57,6 +36,27 @@ async function domFlipCard(domCardContainer) {
   );
 }
 //--
+
+const domCreateCard = (card) => {
+  //MAKES EXCEPTION FOR AD (ACE OF DIAMONDS) BECAUSE IMAGE GETTING BLOCKED BY ADBLOCKER
+  if (card === "AD") card = "aceofdiamonds";
+
+  const newCard = document.createElement("div");
+  newCard.classList.add("card");
+
+  // required HTML for Card
+  newCard.innerHTML = `
+    <div class="card-container">
+         <div class="card-back">
+          <img src="images/green_back.png">
+      </div>
+      <div class="card-front">
+        <img src="/images/${card}.png">
+      </div>
+    </div>`;
+
+  return newCard;
+};
 
 async function cardToDOM(card, player) {
   //CREATES CARD ELEMENT
